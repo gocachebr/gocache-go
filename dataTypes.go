@@ -35,47 +35,48 @@ type CertificateInput struct {
 
 type fieldType struct {
 	Mode    string
+	Default interface{}
 	Allowed []string
 }
 
 var domainFields = map[string]fieldType{
-	"cache_ttl":                        fieldType{Mode: "int", Allowed: []string{"300", "600", "900", "1800", "3600", "7200", "14400", "86400", "172800", "604800"}},
-	"deploy_mode":                      fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"smart_status":                     fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"smart_tpl":                        fieldType{Mode: "string", Allowed: []string{"custom", "wordpress", "magento", "joomla"}},
-	"smart_ttl":                        fieldType{Mode: "int", Allowed: []string{"300", "600", "900", "1800", "3600", "7200", "14400", "86400", "172800", "604800"}},
-	"cdn_mode":                         fieldType{Mode: "string", Allowed: []string{"ns", "cname"}},
-	"gzip_status":                      fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"expires_ttl":                      fieldType{Mode: "int", Allowed: []string{"-1", "3600", "7200", "14400", "43200", "86400", "172800", "345600", "604800", "1296000", "2592000", "15552000", "31536000"}},
-	"ignore_vary":                      fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"ignore_cache_control":             fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"ignore_expires":                   fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"ssl_mode":                         fieldType{Mode: "string", Allowed: []string{"full", "partial"}},
-	"cache_301":                        fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"cache_302":                        fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"cache_404":                        fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"header_device_type":               fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"header_geoip_continent":           fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"header_geoip_country":             fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"header_geoip_org":                 fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"caching_behavior":                 fieldType{Mode: "string", Allowed: []string{"default", "ignore_query_string"}},
-	"waf_status":                       fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"waf_level":                        fieldType{Mode: "string", Allowed: []string{"low", "medium", "high"}},
-	"waf_mode":                         fieldType{Mode: "string", Allowed: []string{"simulate", "challenge", "block"}},
-	"expire_bypass_sec":                fieldType{Mode: "int", Allowed: []string{"-1", "300", "600", "900", "1800", "3600", "7200", "14400", "43200", "86400", "172800", "345600", "604800", "1296000", "2592000", "15552000", "31536000"}},
-	"tls10":                            fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"tls11":                            fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"tls12":                            fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"image_optimize":                   fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"image_optimize_webp":              fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"image_optimize_progressive":       fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"image_optimize_metadata":          fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"image_optimize_level":             fieldType{Mode: "int", Allowed: []string{"0-100"}},
-	"rate_limit_status":                fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"rate_limit_ignore_known_bots":     fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"rate_limit_ignore_static_content": fieldType{Mode: "boolean", Allowed: []string{"true", "false"}},
-	"public_log":                       fieldType{Mode: "string", Allowed: []string{"off", "v1", "v2"}},
-	"log_freq":                         fieldType{Mode: "int", Allowed: []string{"1", "5", "10", "15", "30", "60"}},
+	"cache_ttl":                        fieldType{Mode: "int", Default: 86400, Allowed: []string{"300", "600", "900", "1800", "3600", "7200", "14400", "86400", "172800", "604800"}},
+	"deploy_mode":                      fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"smart_status":                     fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"smart_tpl":                        fieldType{Mode: "string", Default: "custom", Allowed: []string{"custom", "wordpress", "magento", "joomla"}},
+	"smart_ttl":                        fieldType{Mode: "int", Default: 14400, Allowed: []string{"300", "600", "900", "1800", "3600", "7200", "14400", "86400", "172800", "604800"}},
+	"cdn_mode":                         fieldType{Mode: "string", Default: "ns", Allowed: []string{"ns", "cname"}},
+	"gzip_status":                      fieldType{Mode: "boolean", Default: true, Allowed: []string{"true", "false"}},
+	"expires_ttl":                      fieldType{Mode: "int", Default: 14400, Allowed: []string{"-1", "3600", "7200", "14400", "43200", "86400", "172800", "345600", "604800", "1296000", "2592000", "15552000", "31536000"}},
+	"ignore_vary":                      fieldType{Mode: "boolean", Default: true, Allowed: []string{"true", "false"}},
+	"ignore_cache_control":             fieldType{Mode: "boolean", Default: true, Allowed: []string{"true", "false"}},
+	"ignore_expires":                   fieldType{Mode: "boolean", Default: true, Allowed: []string{"true", "false"}},
+	"ssl_mode":                         fieldType{Mode: "string",  Default: "full", Allowed: []string{"full", "partial"}},
+	"cache_301":                        fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"cache_302":                        fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"cache_404":                        fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"header_device_type":               fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"header_geoip_continent":           fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"header_geoip_country":             fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"header_geoip_org":                 fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"caching_behavior":                 fieldType{Mode: "string",  Default: "default", Allowed: []string{"default", "ignore_query_string"}},
+	"waf_status":                       fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"waf_level":                        fieldType{Mode: "string", Default: "high", Allowed: []string{"low", "medium", "high"}},
+	"waf_mode":                         fieldType{Mode: "string", Default: "simulate", Allowed: []string{"simulate", "challenge", "block"}},
+	"expire_bypass_sec":                fieldType{Mode: "int", Default: -1, Allowed: []string{"-1", "300", "600", "900", "1800", "3600", "7200", "14400", "43200", "86400", "172800", "345600", "604800", "1296000", "2592000", "15552000", "31536000"}},
+	"tls10":                            fieldType{Mode: "boolean", Default: true, Allowed: []string{"true", "false"}},
+	"tls11":                            fieldType{Mode: "boolean", Default: true, Allowed: []string{"true", "false"}},
+	"tls12":                            fieldType{Mode: "boolean", Default: true, Allowed: []string{"true", "false"}},
+	"image_optimize":                   fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"image_optimize_webp":              fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"image_optimize_progressive":       fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"image_optimize_metadata":          fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"image_optimize_level":             fieldType{Mode: "int", Default: 0, Allowed: []string{"0-100"}},
+	"rate_limit_status":                fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"rate_limit_ignore_known_bots":     fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"rate_limit_ignore_static_content": fieldType{Mode: "boolean", Default: false, Allowed: []string{"true", "false"}},
+	"public_log":                       fieldType{Mode: "string", Default: "off", Allowed: []string{"off", "v1", "v2"}},
+	"log_freq":                         fieldType{Mode: "int", Default: 60, Allowed: []string{"1", "5", "10", "15", "30", "60"}},
 }
 
 var domainConvert = map[string]string{
@@ -155,6 +156,14 @@ func formData(data map[string]interface{}, fields map[string]string) string {
 
 func GetAllDomainSettings() map[string]fieldType {
 	return domainFields
+}
+
+func GetApiSettingName(str string) string {
+	converted, ok := domainConvert[str]
+	if !ok {
+		return str
+	}
+	return converted
 }
 
 func GetAllDomainSettingsAdjusted() map[string]fieldType {
