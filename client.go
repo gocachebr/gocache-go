@@ -39,7 +39,7 @@ func (api *API) doRequest(req *http.Request) ([]byte, int, error) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return nil, res.StatusCode, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
+		return body, res.StatusCode, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
 	}
 
 	return body, res.StatusCode, err
