@@ -46,6 +46,47 @@ func (api *API) ListRecords(domain string) (*API_Response, error) {
 	return &resp, nil
 }
 
+
+func (api *API) GetRecord(domain string, zoneId string) (*API_Response, error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/dns/%s/%s", api.HostURL, domain, zoneId), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	body, status, err := api.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := API_Response{}
+
+	resp.Response = new(DNSResult)
+
+	err = json.Unmarshal(body, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.Response = *resp.Response.(*DNSResult)
+
+	for i, r := range resp.Response.(DNSResult).Records {
+		resp.Response.(DNSResult).Records[i] = responseConvert(r, recordConvert)
+		proxied, ok := r["proxied"]
+		if ok {
+			if proxied == "1" {
+				r["proxied"] = true
+			} else {
+				r["proxied"] = false
+			}
+		}
+	}
+
+	resp.HTTPStatusCode = status
+
+	return &resp, nil
+}
+
+
 func (api *API) CreateRecord(domain string, recordInfo map[string]interface{}) (*API_Response, error) {
 	resp := API_Response{}
 	proxied, ok := recordInfo["proxied"]
