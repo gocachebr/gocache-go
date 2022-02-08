@@ -16,6 +16,10 @@ type DNSResult struct {
 	Records []map[string]interface{} `json:"records"`
 }
 
+type DNSGetResult struct {
+	Records map[string]interface{} `json:"records"`
+}
+
 type CertificateResult struct {
 	Msg          string                   `json:"msg,omitempty"`
 	Certificates []map[string]interface{} `json:"certificates,omitempty"`

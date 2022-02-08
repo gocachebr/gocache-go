@@ -60,26 +60,14 @@ func (api *API) GetRecord(domain string, zoneId string) (*API_Response, error) {
 
 	resp := API_Response{}
 
-	resp.Response = new(DNSResult)
+	resp.Response = new(DNSGetResult)
 
 	err = json.Unmarshal(body, &resp)
 	if err != nil {
 		return nil, err
 	}
 
-	resp.Response = *resp.Response.(*DNSResult)
-
-	for i, r := range resp.Response.(DNSResult).Records {
-		resp.Response.(DNSResult).Records[i] = responseConvert(r, recordConvert)
-		proxied, ok := r["proxied"]
-		if ok {
-			if proxied == "1" {
-				r["proxied"] = true
-			} else {
-				r["proxied"] = false
-			}
-		}
-	}
+	resp.Response = *resp.Response.(*DNSGetResult)
 
 	resp.HTTPStatusCode = status
 
