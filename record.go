@@ -46,7 +46,6 @@ func (api *API) ListRecords(domain string) (*API_Response, error) {
 	return &resp, nil
 }
 
-
 func (api *API) GetRecord(domain string, zoneId string) (*API_Response, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/dns/%s/%s", api.HostURL, domain, zoneId), nil)
 	if err != nil {
@@ -73,7 +72,6 @@ func (api *API) GetRecord(domain string, zoneId string) (*API_Response, error) {
 
 	return &resp, nil
 }
-
 
 func (api *API) CreateRecord(domain string, recordInfo map[string]interface{}) (*API_Response, error) {
 	resp := API_Response{}

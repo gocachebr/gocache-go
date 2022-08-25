@@ -17,10 +17,10 @@ func (api *API) ListIpRanges() ([]string, error) {
 		return nil, err
 	}
 
-	resp := make([]string,0)
+	resp := make([]string, 0)
 
-	for _,line := range strings.Split(strings.TrimRight(string(body), "\n"), "\n"){
-		resp = append(resp,line)
+	for _, line := range strings.Split(strings.TrimRight(string(body), "\n"), "\n") {
+		resp = append(resp, line)
 	}
 
 	return resp, nil

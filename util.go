@@ -85,6 +85,10 @@ func GetFieldName(str string, resource string) string {
 		convert = smartRuleActionFirewallCovert
 	case "smart_rule_firewall_action_reversed":
 		convert = smartRuleActionFirewallCovertReversed
+	case "smart_rule_ratelimit_action":
+		convert = rateLimitActionReversed
+	case "smart_rule_ratelimit_match":
+		convert = rateLimitMatchConvertReversed
 	}
 	converted, ok := convert[str]
 	if !ok {
@@ -113,6 +117,15 @@ func GetAllFieldsAdjusted(resource string) map[string]fieldType {
 		convert = smartRuleActionFirewallCovertReversed
 	case "smart_rule_metadata":
 		aux = smartRuleMetadataFields
+	case "smart_rule_ratelimit_match":
+		aux = smartRuleMatchFields
+		convert = rateLimitMatchConvertReversed
+	case "smart_rule_ratelimit_action":
+		aux = rateLimitActions
+		convert = rateLimitActionReversed
+	case "smart_rule_ratelimit_metadata":
+		aux = smartRuleMetadataFields
+
 	default:
 		return nil
 	}
@@ -145,7 +158,12 @@ func CheckDomainValue(field string, value string) bool {
 			if err != nil {
 				return i >= 0 && i <= 100
 			}
-		}else if allowed.Allowed[0] == "ANY"{
+		} else if allowed.Allowed[0] == "0-N" {
+			i, err := strconv.Atoi(field)
+			if err != nil {
+				return i >= 0
+			}
+		} else if allowed.Allowed[0] == "ANY" {
 			return true
 		} else if inList(value, allowed.Allowed) {
 			return true

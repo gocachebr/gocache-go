@@ -59,7 +59,6 @@ func (api *API) CreateDNSSEC(domain string) (*API_Response, error) {
 
 	} else {
 
-
 		err = json.Unmarshal(body, &resp)
 		if err != nil {
 			return &resp, err

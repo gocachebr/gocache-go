@@ -50,7 +50,7 @@ func (api *API) UpdateRules(domain string, rules []SmartRule, id int, ruleType s
 		return nil, err
 	}
 
-	req, err := http.NewRequest("PUT", fmt.Sprintf("%s/rules/bulk/%s/%s/%d",api.HostURL, ruleType, domain, id), strings.NewReader(string(reqBody)))
+	req, err := http.NewRequest("PUT", fmt.Sprintf("%s/rules/bulk/%s/%s/%d", api.HostURL, ruleType, domain, id), strings.NewReader(string(reqBody)))
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (api *API) UpdateRules(domain string, rules []SmartRule, id int, ruleType s
 func (api *API) ApplyBulk(domain string, id int, ruleType string) (*API_Response, error) {
 	resp := API_Response{}
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/rules/bulk/%s/%s/%d",api.HostURL, ruleType, domain, id), nil)
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/rules/bulk/%s/%s/%d", api.HostURL, ruleType, domain, id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ func (api *API) ApplyBulk(domain string, id int, ruleType string) (*API_Response
 func (api *API) GetRules(domain string, ruleType string) (*API_Response, error) {
 	resp := API_Response{}
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rules/%s/%s",api.HostURL, ruleType, domain), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rules/%s/%s", api.HostURL, ruleType, domain), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -125,11 +125,11 @@ func (api *API) GetRules(domain string, ruleType string) (*API_Response, error) 
 
 	err = json.Unmarshal(body, &resp)
 	if err != nil {
-		if strings.Contains(string(body),"\"rules\":{}"){
+		if strings.Contains(string(body), "\"rules\":{}") {
 			resp.Response = *resp.Response.(*SmartRuleResult)
 
 			return &resp, nil
-		}else{
+		} else {
 			return &resp, err
 		}
 	}
@@ -144,12 +144,12 @@ func (api *API) DeleteBulk(domain string, id int, ruleType string) (*API_Respons
 
 	var url string
 	if id != -1 {
-		url = fmt.Sprintf("%s/rules/bulk/%s/%s/%d",api.HostURL, ruleType, domain, id)
-	}else{
-		url = fmt.Sprintf("%s/rules/bulk/%s/%s",api.HostURL, ruleType, domain)
+		url = fmt.Sprintf("%s/rules/bulk/%s/%s/%d", api.HostURL, ruleType, domain, id)
+	} else {
+		url = fmt.Sprintf("%s/rules/bulk/%s/%s", api.HostURL, ruleType, domain)
 	}
 
-	req, err := http.NewRequest("DELETE", url , nil)
+	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
 		return nil, err
 	}
